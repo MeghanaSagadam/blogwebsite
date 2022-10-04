@@ -1,6 +1,7 @@
 package com.meghana.blogproject.services.Impl;
 
 import com.meghana.blogproject.entity.Post;
+import com.meghana.blogproject.exception.ResourceNotFoundException;
 import com.meghana.blogproject.payload.PostDTO;
 import com.meghana.blogproject.payload.PostResponse;
 import com.meghana.blogproject.repository.PostRepository;
@@ -56,14 +57,14 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDTO getPostById(Long id) {
         Post post=postrepository.findById(id)
-                .orElseThrow(()->new RuntimeException("resource not found"));
+                .orElseThrow(()->new ResourceNotFoundException("Post", "id", id));
         return entitytodto(post);
     }
 
     @Override
     public PostDTO updatePostById(PostDTO postdto, Long id) {
         Post post=postrepository.findById(id)
-                .orElseThrow(()->new RuntimeException("resource not found"));
+                .orElseThrow(()->new ResourceNotFoundException("Post", "id", id));
         post.setTitle(postdto.getTitle());
         post.setDescription(postdto.getDescription());
         post.setContent(postdto.getContent());
@@ -74,7 +75,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public void deletePostById(Long id) {
         Post post=postrepository.findById(id)
-                .orElseThrow(()->new RuntimeException("resource not found"));
+                .orElseThrow(()->new ResourceNotFoundException("Post", "id", id));
         postrepository.delete(post);
     }
     //convert entity to dto

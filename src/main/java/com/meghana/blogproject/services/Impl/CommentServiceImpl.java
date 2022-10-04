@@ -2,12 +2,15 @@ package com.meghana.blogproject.services.Impl;
 
 import com.meghana.blogproject.entity.Comment;
 import com.meghana.blogproject.entity.Post;
+import com.meghana.blogproject.exception.BlogAPIException;
+import com.meghana.blogproject.exception.ResourceNotFoundException;
 import com.meghana.blogproject.payload.CommentDTO;
 import com.meghana.blogproject.repository.CommentRepository;
 import com.meghana.blogproject.repository.PostRepository;
 import com.meghana.blogproject.services.CommentService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,7 +29,7 @@ public class CommentServiceImpl implements CommentService {
     public CommentDTO createComment(Long postId, CommentDTO commentdto) {
         Comment comment=mapToEntity(commentdto);
         Post post=postRepository.findById(postId)
-                .orElseThrow(()->new RuntimeException("resource not found"));
+                .orElseThrow(()->new ResourceNotFoundException("Post", "id", postId));
         comment.setPost(post);
         Comment comments=commentrepository.save(comment);
         return mapToDTO(comments);
@@ -40,20 +43,20 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentDTO getCommentById(Long postId, Long commentId) {
-        Post post=postRepository.findById(postId).orElseThrow(()->new RuntimeException("resource not found"));
-        Comment comment=commentrepository.findById(commentId).orElseThrow(()->new RuntimeException("resource not found"));
+        Post post=postRepository.findById(postId).orElseThrow(()->new ResourceNotFoundException("Post", "id", postId));
+        Comment comment=commentrepository.findById(commentId).orElseThrow(()->new ResourceNotFoundException("Post", "id", postId));
         if(!comment.getPost().getId().equals(post.getId())){
-            throw new RuntimeException("comment dosent belong to this post");
+            throw new BlogAPIException(HttpStatus.BAD_REQUEST, "Comment does not belong to post");
         }
         return mapToDTO(comment);
     }
 
     @Override
     public CommentDTO updateCommentById(Long postId, Long commentId, CommentDTO commentdto) {
-        Post post=postRepository.findById(postId).orElseThrow(()->new RuntimeException("resource not found"));
-        Comment comment=commentrepository.findById(commentId).orElseThrow(()->new RuntimeException("resource not found"));
+        Post post=postRepository.findById(postId).orElseThrow(()->new ResourceNotFoundException("Post", "id", postId));
+        Comment comment=commentrepository.findById(commentId).orElseThrow(()->new ResourceNotFoundException("Post", "id", postId));
         if(!comment.getPost().getId().equals(post.getId())){
-            throw new RuntimeException("comment dosent belong to this post");
+            throw new BlogAPIException(HttpStatus.BAD_REQUEST, "Comment does not belong to post");
         }
         comment.setName(commentdto.getName());
         comment.setEmail(commentdto.getEmail());
@@ -64,10 +67,10 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public void deleteCommentById(Long postId, Long commentId) {
-        Post post=postRepository.findById(postId).orElseThrow(()->new RuntimeException("resource not found"));
-        Comment comment=commentrepository.findById(commentId).orElseThrow(()->new RuntimeException("resource not found"));
+        Post post=postRepository.findById(postId).orElseThrow(()->new ResourceNotFoundException("Post", "id", postId));
+        Comment comment=commentrepository.findById(commentId).orElseThrow(()->new ResourceNotFoundException("Post", "id", postId));
         if(!comment.getPost().getId().equals(post.getId())){
-            throw new RuntimeException("comment dosent belong to this post");
+            throw new BlogAPIException(HttpStatus.BAD_REQUEST, "Comment does not belong to post");
         }
         commentrepository.delete(comment);
 
