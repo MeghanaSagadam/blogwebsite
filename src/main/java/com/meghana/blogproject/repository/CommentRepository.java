@@ -3,5 +3,8 @@ package com.meghana.blogproject.repository;
 import com.meghana.blogproject.entity.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface commentRepository extends JpaRepository<Comment,Long> {
+import java.util.List;
+
+public interface CommentRepository extends JpaRepository<Comment,Long> {
+    List<Comment> findByPostId(Long postId);
 }
