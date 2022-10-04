@@ -1,6 +1,6 @@
 package com.meghana.blogproject.controller;
 
-import com.meghana.blogproject.poyload.CommentDTO;
+import com.meghana.blogproject.payload.CommentDTO;
 import com.meghana.blogproject.services.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

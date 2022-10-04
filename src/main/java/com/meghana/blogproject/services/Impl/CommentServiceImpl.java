@@ -2,7 +2,7 @@ package com.meghana.blogproject.services.Impl;
 
 import com.meghana.blogproject.entity.Comment;
 import com.meghana.blogproject.entity.Post;
-import com.meghana.blogproject.poyload.CommentDTO;
+import com.meghana.blogproject.payload.CommentDTO;
 import com.meghana.blogproject.repository.CommentRepository;
 import com.meghana.blogproject.repository.PostRepository;
 import com.meghana.blogproject.services.CommentService;

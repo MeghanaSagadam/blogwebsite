@@ -1,6 +1,6 @@
 package com.meghana.blogproject.services;
 
-import com.meghana.blogproject.poyload.CommentDTO;
+import com.meghana.blogproject.payload.CommentDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

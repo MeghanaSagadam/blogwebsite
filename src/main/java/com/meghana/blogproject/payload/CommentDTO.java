@@ -1,4 +1,4 @@
-package com.meghana.blogproject.poyload;
+package com.meghana.blogproject.payload;
 
 import lombok.Data;
 
